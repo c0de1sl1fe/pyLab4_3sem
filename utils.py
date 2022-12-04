@@ -58,14 +58,14 @@ def df_filter_class(dfSrc: pd.DataFrame, class_name: str) -> pd.DataFrame:
 
 def df_filter_dimentions(dfSrc: pd.DataFrame, class_name: str, h: int, w: int) -> pd.DataFrame:
     '''filter df to df with certain class name and h and w'''
-    return dfSrc[dfSrc.height <= h and dfSrc.width <= w and dfSrc.img_class == class_name]
+    return dfSrc[(dfSrc.height <= h) & (dfSrc.width <= w) & (dfSrc.img_class == class_name)]
 
 
 def stats_with_pixels(df: pd.DataFrame, class_name: str) -> None:
-    df = df_filter_class(df, class_name)
     df['pixel'] = df['path'].apply(img_pixels)
+    df = df_filter_class(df, class_name)
     df.groupby('pixel').count()
-    df.pixel.describe()
+    print(df.pixel.describe())
 
 
 def create_histogram(df: pd.DataFrame, class_name: str) -> Type:
